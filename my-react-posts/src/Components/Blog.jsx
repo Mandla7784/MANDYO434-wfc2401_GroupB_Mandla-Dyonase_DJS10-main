@@ -1,19 +1,44 @@
-import React from "react";
-export default function Blog() {
-  //   //
-  const [posts, setPosts] = React.useState([]);
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-  React.useEffect(() => {
+export default function Blog() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts`
-      );
-      const data = await response.json();
-      setPosts(data);
+      axios
+        .get("https://jsonplaceholder.typicode.com/posts")
+        .then((response) => {
+          const data = response.data;
+          setPosts(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     };
 
     fetchData();
   }, []);
+
+  if (posts.length === 0) return <h1>Loading...</h1>;
+
+  if (!posts)
+    return (
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>Document</title>
+        </head>
+        <body>
+          <h1>Data fetching Failed</h1>
+        </body>
+      </html>
+    );
+
   const displayData = posts.map((post) => {
     return (
       <div className="post" key={post.id}>
@@ -22,7 +47,6 @@ export default function Blog() {
       </div>
     );
   });
-  console.log(posts);
 
   return (
     <>
@@ -33,6 +57,3 @@ export default function Blog() {
     </>
   );
 }
-/**
- * @returns {JSX.Element}
- */
