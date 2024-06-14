@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default function Blog() {
   const [posts, setPosts] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,32 +13,23 @@ export default function Blog() {
           const data = response.data;
           setPosts(data);
         })
-        .catch(() => {
-          const data = [];
-          setPosts(data);
+        .catch((error) => {
+          setError(error.message);
         });
     };
     fetchData();
   }, []);
 
-  if (posts.length === 0) return <h1>Data fetching Failed</h1>;
-
-  if (!posts)
+  if (error) {
     return (
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <title>Document</title>
-        </head>
-        <body>
-          <h1>Data fetching Failed</h1>
-        </body>
-      </html>
+      <div>
+        <h1>Error</h1>
+        <p>{error}</p>
+      </div>
     );
+  }
+
+  if (posts.length === 0) return <h1>Loading...</h1>;
 
   const displayData = posts.map((post) => {
     return (
