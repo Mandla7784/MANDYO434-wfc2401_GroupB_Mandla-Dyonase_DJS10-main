@@ -17,7 +17,6 @@ export default function Blog() {
           setPosts(data);
         });
     };
-
     fetchData();
   }, []);
 
@@ -43,7 +42,9 @@ export default function Blog() {
   const displayData = posts.map((post) => {
     return (
       <div className="post" key={post.id}>
-        <h3>{post.title}</h3>
+        <h3>
+          {post.id}. {post.title}
+        </h3>
         <p>{post.body}</p>
       </div>
     );
