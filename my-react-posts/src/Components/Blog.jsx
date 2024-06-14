@@ -4,9 +4,15 @@ export default function Blog() {
   const [posts, setPosts] = React.useState([]);
 
   React.useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/posts`)
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
+    const fetchData = async () => {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts`
+      );
+      const data = await response.json();
+      setPosts(data);
+    };
+
+    fetchData();
   }, []);
   const displayData = posts.map((post) => {
     return (
@@ -27,7 +33,6 @@ export default function Blog() {
     </>
   );
 }
-
 /**
  * @returns {JSX.Element}
  */
