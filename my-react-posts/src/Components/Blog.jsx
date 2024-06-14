@@ -12,15 +12,16 @@ export default function Blog() {
           const data = response.data;
           setPosts(data);
         })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
+        .catch(() => {
+          const data = [];
+          setPosts(data);
         });
     };
 
     fetchData();
   }, []);
 
-  if (posts.length === 0) return <h1>Loading...</h1>;
+  if (posts.length === 0) return <h1>Data fetching Failed</h1>;
 
   if (!posts)
     return (
